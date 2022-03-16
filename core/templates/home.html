@@ -1,0 +1,77 @@
+<!-- templates/home.html-->
+{% extends 'header.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load django_tables2 %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% include "basic_imports.html" %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+
+<style>
+    .table-wrapper {
+        max-height: 500px;
+        overflow: auto;
+        padding: 50px;
+    }
+</style>
+
+<div class="module form-module">
+
+
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-9">
+                <h1>
+                    Hi {{user.username}}
+                    <small class="text-muted">Your balance is ${{ balance }}</small>
+                </h1>
+            </div>
+            <div class="col-md-3">
+                <a class="btn btn-secondary" role="button" href="{% url 'logout' %}">Log Out</a>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container py-5">
+        <div class="row">
+
+            <div class="col-sm">
+                <h3>New transaction</h3>
+                <form method="POST">
+                    <div class="form-group">
+                        {% csrf_token %}
+                        {{ new_transaction_form | crispy}}
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" name="new-transaction" type="submit">Log</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-sm">
+                <h3> New Category</h3>
+                <form method="POST">
+                    <div class="form-group">
+                        {% csrf_token %}
+                        {{ new_category_form | crispy}}
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" name="new-category" type="submit">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container table-wrapper">
+        {% render_table table %}
+    </div>
+
+
+</div>
+{% endblock %}
