@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 import re
 from core.models.balances import Balance
-from core.users.builders import create_initial_balance
+from core.views.builders import create_initial_balance
 from django.utils.translation import gettext_lazy as _
 
 # Create your forms here.
