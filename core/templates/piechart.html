@@ -1,0 +1,85 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<div id="container" style="width: 75%;">
+    <div class="row">
+        <div class="col-md-6">
+            <canvas id="pie-chart-outgoing"></canvas>
+        </div>
+
+        <div class="col-md-6">
+            <canvas id="pie-chart-incoming"></canvas>
+        </div>
+
+
+    </div>
+    
+</div>
+
+<script>
+    const COLORS1 = [
+  '#4dc9f6',
+  '#f67019',
+  '#f53794',
+  '#537bc4',
+  '#acc236',
+  '#166a8f',
+  '#00a950',
+  '#58595b',
+  '#8549ba'
+];
+
+const COLORS2 = [
+    '#52D726',
+    '#FFEC00',
+    '#FF7300',
+    '#FF0000',
+    '#007ED6',
+    '#7CDDDD',
+]
+
+    var config_outgoing = {
+      type: 'doughnut',
+      data: {
+        datasets: [{
+          data: {{ outgoing_totals_list|safe }},
+          backgroundColor: COLORS1,
+          label: 'Outgoing'
+        }],
+        labels: {{ outgoing_categories_list|safe }}
+      },
+      options: {
+        responsive: true,
+        title: {
+            display: true,
+            text: 'Outgoing expenses'
+        }
+      }
+    };
+
+    var config_incoming = {
+      type: 'doughnut',
+      data: {
+        datasets: [{
+          data: {{ incoming_totals_list|safe }},
+          backgroundColor: COLORS2,
+          label: 'Incoming'
+        }],
+        labels: {{ incoming_categories_list|safe }}
+      },
+      options: {
+        responsive: true,
+        title: {
+            display: true,
+            text: 'Incoming expenses'
+        }
+      }
+    };
+
+    window.onload = function() {
+      var ctx_out = document.getElementById('pie-chart-outgoing').getContext('2d');
+      var ctx_in = document.getElementById('pie-chart-incoming').getContext('2d');
+      window.myPie = new Chart(ctx_out, config_outgoing);
+      window.myPie = new Chart(ctx_in, config_incoming)
+    };
+
+  </script>
+

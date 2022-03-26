@@ -15,7 +15,7 @@ class NewCategoryForm(forms.ModelForm):
 
     def save(self, user, commit=True):
         category = Category(
-            name=self.cleaned_data["name"], creator=user, type=self.cleaned_data["type"]
+            name=self.cleaned_data["name"], creator=user, type=self.cleaned_data["type"], associated_forecast=self.cleaned_data["associated_forecast"]
         )
         if commit:
             category.save()

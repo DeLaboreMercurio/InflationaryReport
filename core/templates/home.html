@@ -72,6 +72,11 @@
         {% render_table table %}
     </div>
 
+    {% include "piechart.html" %}
+
+    <div class="container table-wrapper">
+        {% render_table category_totals_table %}
+    </div>
 
 </div>
 {% endblock %}
