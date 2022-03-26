@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from crum import get_current_user
 
 from core.models.balances import Balance
+from core.models.forecasts import Forecast
 
 
 class TransactionTypes(models.TextChoices):
@@ -55,6 +56,8 @@ class Category(models.Model):
         blank=False,
         default=TransactionTypes.OUTGOING,
     )
+
+    associated_forecast = models.ForeignKey(Forecast, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.name

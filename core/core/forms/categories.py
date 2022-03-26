@@ -11,7 +11,7 @@ class NewCategoryForm(forms.ModelForm):
 
     class Meta:
         model = Category
-        fields = ["name"]
+        fields = ["name", "associated_forecast"]
 
     def save(self, user, commit=True):
         category = Category(
