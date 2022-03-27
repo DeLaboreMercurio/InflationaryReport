@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
-from core.forms.registration import NewUserForm, BalanceForm
 from django.contrib import messages
-
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import render, redirect
+from django.utils.translation import gettext_lazy as _
+
+from core.forms.registration import NewUserForm, BalanceForm
 
 
 def register_request(request):
@@ -13,11 +14,12 @@ def register_request(request):
         if user_form.is_valid():
             user = user_form.save()
             login(request, user)
-            messages.success(request, "Registration successful.")
+            messages.success(request, _("Registration successful."))
             if balance_form.is_valid():
                 balance_form.save()
             return redirect("home")
-        messages.error(request, "Unsuccessful registration. Invalid information.")
+        messages.error(request, _("Unsuccessful registration. Invalid information."))
+
     user_form = NewUserForm()
     balance_form = BalanceForm(initial={"balance": 0})
     return render(
@@ -40,9 +42,9 @@ def login_request(request):
                     messages.info(request, f"You are now logged in as {username}.")
                     return redirect("home")
                 else:
-                    messages.error(request, "Invalid username or password.")
+                    messages.error(request, _("Invalid username or password."))
             else:
-                messages.error(request, "Invalid username or password.")
+                messages.error(request, _("Invalid username or password."))
 
         if "register" in request.POST:
             user_form = NewUserForm(request.POST)
@@ -50,11 +52,11 @@ def login_request(request):
             if user_form.is_valid():
                 user = user_form.save()
                 login(request, user)
-                messages.success(request, "Registration successful.")
+                messages.success(request, _("Registration successful."))
                 if balance_form.is_valid():
                     balance_form.save()
                 return redirect("home")
-            messages.error(request, "Unsuccessful registration. Invalid information.")
+            messages.error(request, _("Unsuccessful registration. Invalid information."))
 
     login_form = AuthenticationForm()
     register_form = NewUserForm()

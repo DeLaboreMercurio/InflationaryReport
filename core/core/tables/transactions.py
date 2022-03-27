@@ -4,7 +4,6 @@ from core.models.transactions import Transaction
 
 
 class TransactionsTable(tables.Table):
-
     amount = tables.Column()
 
     def __init__(self, *args, **kwargs):
@@ -18,8 +17,8 @@ class TransactionsTable(tables.Table):
         exclude = ("id", "creator", "updated_at")
         sequence = ("created_at", "amount", "description", "type")
 
-class CategoryTransactionsTable(tables.Table):
 
+class CategoryTransactionsTable(tables.Table):
     total = tables.Column()
     category__name = tables.Column()
     forecast = tables.Column()
