@@ -1,0 +1,116 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-26 23:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: core/models/balances.py:8
+msgid "total"
+msgstr ""
+
+#: core/models/balances.py:10
+msgid "updated at"
+msgstr ""
+
+#: core/models/balances.py:21
+msgid "balance"
+msgstr ""
+
+#: core/models/balances.py:22
+msgid "balances"
+msgstr ""
+
+#: core/models/forecasts.py:6 core/models/transactions.py:52
+msgid "name"
+msgstr "nombre"
+
+#: core/models/forecasts.py:8 core/models/transactions.py:26
+msgid "description"
+msgstr ""
+
+#: core/models/forecasts.py:10 core/models/transactions.py:24
+#: core/models/transactions.py:53
+msgid "created_at"
+msgstr ""
+
+#: core/models/forecasts.py:11 core/models/transactions.py:25
+#: core/models/transactions.py:54
+msgid "updated_at"
+msgstr ""
+
+#: core/models/forecasts.py:13 core/models/transactions.py:22
+msgid "amount"
+msgstr ""
+
+#: core/models/forecasts.py:20
+msgid "forecast"
+msgstr ""
+
+#: core/models/forecasts.py:21
+msgid "forecasts"
+msgstr ""
+
+#: core/models/transactions.py:12
+msgid "Incoming"
+msgstr ""
+
+#: core/models/transactions.py:13
+msgid "Outgoing"
+msgstr ""
+
+#: core/models/transactions.py:14
+msgid "Starting"
+msgstr ""
+
+#: core/models/transactions.py:19 core/models/transactions.py:61
+msgid "type"
+msgstr ""
+
+#: core/models/transactions.py:47 core/models/transactions.py:48
+msgid "transaction"
+msgstr ""
+
+#: core/models/transactions.py:76
+msgid "category"
+msgstr ""
+
+#: core/models/transactions.py:77
+msgid "categories"
+msgstr ""
+
+#: core/models/transactions.py:87
+msgid "Invalid transaction type"
+msgstr ""
+
+#: core/settings.py:125
+msgid "Spanish"
+msgstr ""
+
+#: core/settings.py:126
+msgid "English"
+msgstr ""
+
+#: core/views/users.py:17 core/views/users.py:55
+msgid "Registration successful."
+msgstr ""
+
+#: core/views/users.py:21 core/views/users.py:59
+msgid "Unsuccessful registration. Invalid information."
+msgstr ""
+
+#: core/views/users.py:45 core/views/users.py:47
+msgid "Invalid username or password."
+msgstr ""
