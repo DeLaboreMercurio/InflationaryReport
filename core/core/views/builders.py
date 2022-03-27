@@ -1,14 +1,15 @@
 from typing import Tuple
-from core.models.balances import Balance
-from core.models.transactions import Category, Transaction, TransactionTypes
 
 from crum import get_current_user
 from django.db.models import Sum
 
+from core.models.balances import Balance
+from core.models.transactions import Category, Transaction, TransactionTypes
+
 
 def create_initial_balance(balance: float = 0):
-
     balance = Balance.objects.create(total=balance, user=get_current_user())
+
 
 def get_expenses_by_category(transaction_type: TransactionTypes) -> Tuple[list, list]:
     """get_expenses_by_category returns a list of tuples with the category name and the total amount of expenses in that category
@@ -25,16 +26,13 @@ def get_expenses_by_category(transaction_type: TransactionTypes) -> Tuple[list, 
     categories_list = []
     totals_list = []
 
-    for category in Category.objects.filter(type=transaction_type, creator=user):
-        
-        expenses = Transaction.objects.filter(category=category, creator=user).aggregate(Sum('amount'))['amount__sum']
+    for category in Category.objects.filter(type=transaction_type, creator=user):        
+        expenses = Transaction.objects.filter(
+            category=category, creator=user
+        ).aggregate(Sum('amount'))['amount__sum']
+
         if expenses is not None and expenses > 0:
             categories_list.append(category.name)
             totals_list.append(int(expenses))
     
     return categories_list, totals_list
-
-
-
-
-
