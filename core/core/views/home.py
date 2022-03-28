@@ -9,6 +9,10 @@ from core.tables.transactions import CategoryTransactionsTable, TransactionsTabl
 from core.forms.transactions import NewTransactionForm
 from core.forms.categories import NewCategoryForm
 from core.views.builders import get_expenses_by_category
+from django.contrib import messages
+
+from django.utils.translation import gettext_lazy as _
+
 
 @login_required()
 def home_view(request):
@@ -20,8 +24,9 @@ def home_view(request):
 
         elif "new-category" in request.POST:
             return _handle_new_category(request)
-        
+
     return _render_home_view(request)
+
 
 def _render_home_view(request: HttpRequest) -> HttpRequest:
     """_render_home_view renders the home view
@@ -31,7 +36,7 @@ def _render_home_view(request: HttpRequest) -> HttpRequest:
 
     Returns:
         HttpRequest: The request object
-    """    
+    """
     transactions = Transaction.objects.filter(creator=request.user)
     transactions_table = TransactionsTable(transactions)
 
@@ -42,8 +47,12 @@ def _render_home_view(request: HttpRequest) -> HttpRequest:
     )
     new_category_form = NewCategoryForm()
 
-    outgoing_categories_list, outgoing_totals_list = get_expenses_by_category(TransactionTypes.OUTGOING)
-    incoming_categories_list, incoming_totals_list = get_expenses_by_category(TransactionTypes.INCOMING)
+    outgoing_categories_list, outgoing_totals_list = get_expenses_by_category(
+        TransactionTypes.OUTGOING
+    )
+    incoming_categories_list, incoming_totals_list = get_expenses_by_category(
+        TransactionTypes.INCOMING
+    )
     return render(
         request,
         "home.html",
@@ -56,10 +65,11 @@ def _render_home_view(request: HttpRequest) -> HttpRequest:
             "outgoing_totals_list": outgoing_totals_list,
             "incoming_categories_list": incoming_categories_list,
             "incoming_totals_list": incoming_totals_list,
-            "category_totals_table" : category_totals_table
+            "category_totals_table": category_totals_table,
         },
     )
-            
+
+
 def _handle_new_category(request: HttpRequest) -> HttpRequest:
     """_handle_new_category handles the creation of a new category
 
@@ -68,11 +78,12 @@ def _handle_new_category(request: HttpRequest) -> HttpRequest:
 
     Returns:
         HttpRequest: The request object
-    """    
+    """
 
     form = NewCategoryForm(request.POST)
     if form.is_valid():
         category = form.save(get_current_user())
+        messages.success(request, _(f"Category {category.name} created."))
         return redirect("home")
 
 
@@ -84,23 +95,37 @@ def _handle_new_transaction(request: HttpRequest) -> HttpRequest:
 
     Returns:
         HttpRequest: The request object
-    """    
+    """
     form = NewTransactionForm(get_current_user(), request.POST)
     if form.is_valid():
+        messages.add_message(
+            request, messages.INFO, _("Transaction logged."), extra_tags="primary"
+        )
         transaction = form.save()
         return redirect("home")
 
-def _generate_transactions_category_forecast_table(request: HttpRequest) -> CategoryTransactionsTable:
 
-    categories = Transaction.objects.filter(creator=request.user).values('category__name').annotate(total=Sum('amount'))
-    
-    forecasts = Category.objects.filter(creator=request.user).exclude(associated_forecast__isnull=True)
+def _generate_transactions_category_forecast_table(
+    request: HttpRequest,
+) -> CategoryTransactionsTable:
+
+    categories = (
+        Transaction.objects.filter(creator=request.user)
+        .values("category__name")
+        .annotate(total=Sum("amount"))
+    )
+
+    forecasts = Category.objects.filter(creator=request.user).exclude(
+        associated_forecast__isnull=True
+    )
     # TODO Change this to a couple of properties in the model.
     for category in categories:
         for forecast in forecasts:
-            if category['category__name'] == forecast.name:
-                category['forecast'] = category['total'] + (forecast.associated_forecast.amount / 100 ) * category['total']
-
+            if category["category__name"] == forecast.name:
+                category["forecast"] = (
+                    category["total"]
+                    + (forecast.associated_forecast.amount / 100) * category["total"]
+                )
 
     category_totals_table = CategoryTransactionsTable(categories)
 

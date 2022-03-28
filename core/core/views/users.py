@@ -1,3 +1,4 @@
+from unittest.mock import DEFAULT
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -18,7 +19,7 @@ def register_request(request):
             if balance_form.is_valid():
                 balance_form.save()
             return redirect("home")
-        messages.error(request, _("Unsuccessful registration. Invalid information."))
+        messages.warning(request, _("Unsuccessful registration. Invalid information."))
 
     user_form = NewUserForm()
     balance_form = BalanceForm(initial={"balance": 0})
@@ -42,9 +43,9 @@ def login_request(request):
                     messages.info(request, f"You are now logged in as {username}.")
                     return redirect("home")
                 else:
-                    messages.error(request, _("Invalid username or password."))
+                    messages.warning(request, _("Invalid username or password."))
             else:
-                messages.error(request, _("Invalid username or password."))
+                messages.warning(request, _("Invalid username or password."))
 
         if "register" in request.POST:
             user_form = NewUserForm(request.POST)
@@ -56,7 +57,7 @@ def login_request(request):
                 if balance_form.is_valid():
                     balance_form.save()
                 return redirect("home")
-            messages.error(request, _("Unsuccessful registration. Invalid information."))
+            messages.warning(request, _("Unsuccessful registration. Invalid information."))
 
     login_form = AuthenticationForm()
     register_form = NewUserForm()
